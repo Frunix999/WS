@@ -1,7 +1,7 @@
 import { browser, expect, $ } from '@wdio/globals'
 
-describe.skip('Sing up on GitHub page', () => {
-   xit('click GitHub sing up button', async () => {
+describe('Testing GitHub', () => {
+   xit('TC1', async () => {
     await browser.url("https://github.com/")
     const singupField = await $("//input[contains(@class, 'Primer_Brand__TextInput-module__TextInput___EtKj3 TextInput Primer_Brand__TextInput-module__TextInput--medium___kJrew CtaFormControl-input')][1]")
     await singupField.addValue("testEmail@gmail.com")
@@ -23,7 +23,7 @@ describe.skip('Sing up on GitHub page', () => {
         await browser.pause(2000)
     })
 
-    it('Use GitHub search module', async () => {
+    xit('TC2', async () => {
         await browser.url("https://github.com/")
         const searchField = await $("//span[contains(@data-target, 'qbsearch-input.inputButtonText')]")
         await searchField.click()
@@ -41,4 +41,47 @@ describe.skip('Sing up on GitHub page', () => {
         await browser.pause(2000)
     })
 
+    xit('TC3', async () => {
+        await browser.url("https://github.com/login")
+
+        const loginField = await $("#login_field")
+        const emailField = await $ ("#password")
+        const singInBtn = await $("//input[@class='btn btn-primary btn-block js-sign-in-button']")
+        const errorMsg = await $("//div[@class='js-flash-alert' and contains(., 'Incorrect username or password.')]")
+
+        await loginField.addValue("testEmail@gmail.com")
+        await emailField.addValue("SuperSecretPassword!")
+
+        await singInBtn.click()
+
+        await expect(errorMsg).toHaveText("Incorrect username or password.")
+
+        await browser.pause(2000)
+    })
+
+    xit('TC4', async () => {
+        await browser.url("https://github.com/search?q=Car&type=repositories")
+
+        const sortBtn = await $("#_r_18_")
+        const mostStars = await $("#_r_24_--label")
+
+        await sortBtn.click()
+
+        await mostStars.click()
+        
+
+        await browser.pause(2000)
+    })
+
+    it('TC5', async () => {
+        await browser.url("https://github.com/search?q=Car&type=repositories")
+
+        const repoLink = await $("//a[@href='/mitre-attack/car']")
+
+        await repoLink.click()
+
+        await expect(browser).toHaveUrl('https://github.com/mitre-attack/car');
+
+        await browser.pause(2000)
+    })
 })
